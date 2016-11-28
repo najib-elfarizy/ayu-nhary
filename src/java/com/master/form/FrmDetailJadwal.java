@@ -24,7 +24,7 @@ public class FrmDetailJadwal extends FRMHandlerMultipart implements I_FRMInterfa
     public static final int FRM_ID_DETAIL_JADWAL       = 0;
     public static final int FRM_ID_JADWAL              = 1;
     public static final int FRM_ID_PROYEK              = 2;
-    public static final int FRM_NIK                    = 3;
+    public static final int FRM_NIP                    = 3;
     public static final int FRM_JAM_MULAI              = 4;
     public static final int FRM_JAM_SELESAI            = 5;
     public static final int FRM_TANGGAL_MULAI          = 5;
@@ -34,7 +34,7 @@ public class FrmDetailJadwal extends FRMHandlerMultipart implements I_FRMInterfa
         "ID_DETAIL_JADWAL",
         "ID_JADWAL",
         "ID_PROYEK",
-        "NIK",
+        "NIP",
         "JAM_MULAI",
         "JAM_SELESAI",
         "TANGGAL_MULAI",
@@ -81,7 +81,7 @@ public class FrmDetailJadwal extends FRMHandlerMultipart implements I_FRMInterfa
         this.setAndCheckParamValues();       
         ent.setIdJadwal(this.getLong(FRM_ID_JADWAL));
         ent.setIdProyek(this.getLong(FRM_ID_PROYEK));
-        ent.setNIK(this.getLong(FRM_NIK));
+        ent.setNIP(this.getLong(FRM_NIP));
         ent.setJamMulai(dateTime(this.getDate(FRM_TANGGAL_MULAI),this.getDate(FRM_JAM_MULAI)));
         ent.setJamSelesai(dateTime(this.getDate(FRM_TANGGAL_SELESAI),this.getDate(FRM_JAM_SELESAI)));
         return ent;

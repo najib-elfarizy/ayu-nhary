@@ -31,7 +31,7 @@ public class SessJadwal {
     
     private static Gen crossover_karyawan(Gen gen1, Gen gen2){
         //id karyawan gen2 ditukar selama memenuhi syarat tidak ada id yang sama pada gen1
-        gen1 = new Gen(gen1.getIdProyek(), gen2.getIdKaryawan(), gen1.getWaktu());
+        gen1 = new Gen(gen1.getIdProyek(), gen2.getIdPegawai(), gen1.getWaktu());
         return gen1;
     }
     
@@ -53,26 +53,26 @@ public class SessJadwal {
         }
         int index_gen  = 0;
         //karyawan tidak boleh sama dengan induk 1
-        ArrayList<Long> tempKaryawan = new ArrayList<Long>();            
+        ArrayList<Long> tempPegawai = new ArrayList<Long>();            
         for(int j=0; j<gen.length; j++){
-            tempKaryawan.add(gen[j].getIdKaryawan());
+            tempPegawai.add(gen[j].getIdPegawai());
         }
         for(int j=0; j<gen.length; j++){
             index_gen = index_gen + 1;
-            gen[j] = mutasi_karyawan(gen[j], tempKaryawan);
+            gen[j] = mutasi_karyawan(gen[j], tempPegawai);
         }
         kromosom = new Kromosom(gen);
         return kromosom;
     }
     
-    private static Gen mutasi_karyawan(Gen gen, ArrayList<Long> tempKaryawan){
+    private static Gen mutasi_karyawan(Gen gen, ArrayList<Long> tempPegawai){
         try{
             Proyek proyek = PstProyek.fetchExc(gen.getIdProyek());
-            Karyawan karyawan = new Karyawan();
-            Vector listKaryawan = PstKaryawan.listAll();
+            Pegawai karyawan = new Pegawai();
+            Vector listPegawai = PstPegawai.listAll();
             Random ran = new Random();
-            int num = ran.nextInt(listKaryawan.size());        
-            karyawan = (Karyawan)listKaryawan.get(num);
+            int num = ran.nextInt(listPegawai.size());        
+            karyawan = (Pegawai)listPegawai.get(num);
             gen = new Gen(proyek.getOID(), karyawan.getOID(), gen.getWaktu());
         }catch(Exception e){
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class SessJadwal {
                 detailjadwal.setIdProyek(proyek.getOID());
                 detailjadwal.setJamMulai(proyek.getWaktuMulai());
                 detailjadwal.setJamSelesai(proyek.getWaktuSelesai());
-                detailjadwal.setNIK(arrayGen[j].getIdKaryawan());
+                detailjadwal.setNIP(arrayGen[j].getIdPegawai());
                 PstDetailJadwal.insertExc(detailjadwal);
             }
         }catch(Exception e){

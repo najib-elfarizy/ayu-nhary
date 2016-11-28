@@ -10,15 +10,15 @@ import java.util.Date;
 
 public class Pegawai extends Entity {
 
-    private String nip;
-    private String nama_pegawai;
-    private String jenis_kelamin;
-    private String tempat_lahir;
-    private Date tanggal_lahir;
-    private String alamat;
-    private String pendidikan;
-    private String email;
-    private String jabatan;
+    private String nip = "";
+    private String namaPegawai = "";
+    private String jenisKelamin = "";
+    private String tempatLahir = "";
+    private Date tanggalLahir;
+    private String alamat = "";
+    private String pendidikan = "";
+    private String email = "";
+    private String jabatan = "";
 
     public String getNip() {
         return nip;
@@ -28,36 +28,36 @@ public class Pegawai extends Entity {
         this.nip = nip;
     }
 
-    public String getNama_pegawai() {
-        return nama_pegawai;
+    public String getNamaPegawai() {
+        return namaPegawai;
     }
 
-    public void setNama_pegawai(String nama_pegawai) {
-        this.nama_pegawai = nama_pegawai;
+    public void setNamaPegawai(String namaPegawai) {
+        this.namaPegawai = namaPegawai;
     }
 
-    public String getJenis_kelamin() {
-        return jenis_kelamin;
+    public String getJenisKelamin() {
+        return jenisKelamin;
     }
 
-    public void setJenis_kelamin(String jenis_kelamin) {
-        this.jenis_kelamin = jenis_kelamin;
+    public void setJenisKelamin(String jenisKelamin) {
+        this.jenisKelamin = jenisKelamin;
     }
 
-    public String getTempat_lahir() {
-        return tempat_lahir;
+    public String getTempatLahir() {
+        return tempatLahir;
     }
 
-    public void setTempat_lahir(String tempat_lahir) {
-        this.tempat_lahir = tempat_lahir;
+    public void setTempatLahir(String tempatLahir) {
+        this.tempatLahir = tempatLahir;
     }
 
-    public Date getTanggal_lahir() {
-        return tanggal_lahir;
+    public Date getTanggalLahir() {
+        return tanggalLahir;
     }
 
-    public void setTanggal_lahir(Date tanggal_lahir) {
-        this.tanggal_lahir = tanggal_lahir;
+    public void setTanggalLahir(Date tanggalLahir) {
+        this.tanggalLahir = tanggalLahir;
     }
 
     public String getAlamat() {

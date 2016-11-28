@@ -10,12 +10,12 @@ package com.master.session.ga;
 public class Gen {
     
     private long idProyek;
-    private long idKaryawan;
+    private long idPegawai;
     private float waktu;
     
-    public Gen(long idProyek, long idKaryawan, float waktu){
+    public Gen(long idProyek, long idPegawai, float waktu){
         this.idProyek = idProyek;
-        this.idKaryawan = idKaryawan;
+        this.idPegawai = idPegawai;
         this.waktu = waktu;
     }
 
@@ -27,10 +27,10 @@ public class Gen {
     }
 
     /**
-     * @return the idKaryawan
+     * @return the idPegawai
      */
-    public long getIdKaryawan() {
-        return idKaryawan;
+    public long getIdPegawai() {
+        return idPegawai;
     }
 
     /**

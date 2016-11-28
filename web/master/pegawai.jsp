@@ -83,7 +83,7 @@
 
     int iErrCode = ExtendedFRMMessage.NONE; //untuk menyimpan kode error yang muncul selama proses maintenance data
     String msgString = ""; //untuk menyimpan pesan error utama yang muncul selama proses maintenance data
-    String orderClause = PstKaryawan.fieldNames[PstKaryawan.FLD_NIK];//untuk menyimpan orderClause dalam proses menampilkan data dalam list tabel
+    String orderClause = PstPegawai.fieldNames[PstPegawai.FLD_NIP];//untuk menyimpan orderClause dalam proses menampilkan data dalam list tabel
 
     String imageDirectory = this.getServletContext().getRealPath("/") + "images"; //untuk menyimpan string directory tempat menyimpan file image
     long maxRequestSize = 102400; //untuk menyimpan data ukuran file maksimal yang diikutkan dalam proses maintenance data
@@ -91,7 +91,7 @@
     int iCommand = 0; //untuk menyimpan kode command yang akan dilakukan setelah proses di-submit
     int start = 0; //untuk menyimpan indeks start di list mana data yang sedang menjadi fokus berada
     int prevCommand = 0; //untuk menyimpan nilai dari command yang sebelumnya dilakukan
-    long IDKaryawan = 0; //untuk menyimpan ID objek yang sedang dimaintenance (0: untuk data baru)
+    long IDPegawai = 0; //untuk menyimpan ID objek yang sedang dimaintenance (0: untuk data baru)
 
     Hashtable paramValues = new Hashtable(); //Hashtable untuk menyimpan data inputan user secara sementara
 
@@ -130,8 +130,8 @@
                     start = Integer.parseInt(item.getString());
                 } else if (item.getFieldName().matches("prev_command")) {
                     prevCommand = Integer.parseInt(item.getString());
-                } else if (item.getFieldName().matches("hidden_karyawan_id")) {
-                    IDKaryawan = Long.parseLong(item.getString());
+                } else if (item.getFieldName().matches("hidden_pegawai_id")) {
+                    IDPegawai = Long.parseLong(item.getString());
                 } else {
                     String fieldName = item.getFieldName();
 
@@ -160,39 +160,40 @@
         }
     }
 
-    CtrlKaryawan ctrlKaryawan = new CtrlKaryawan(paramValues); //memanggil control untuk melakukan manipulasi data dengan mengirim Hashtable yang sudah ada nilai inputan user
+    CtrlPegawai ctrlPegawai = new CtrlPegawai(paramValues); //memanggil control untuk melakukan manipulasi data dengan mengirim Hashtable yang sudah ada nilai inputan user
     ExtendedControlLine ctrLine = new ExtendedControlLine(); //membuat sebuah control line untuk tempat command
-    Vector listKaryawan = new Vector(1, 1); //membuat sebuah vector yang berisikan data yang akan ditampilkan dalam list tabel
+    BootstrapPaginator paginator = new BootstrapPaginator(); //membuat sebuah control paginator untuk tempat command
+    Vector listPegawai = new Vector(1, 1); //membuat sebuah vector yang berisikan data yang akan ditampilkan dalam list tabel
     String whereClause = ""; //untuk menyimpan whereClause dalam proses menampilkan data dalam list tabel
 
     /*switch statement */
-    iErrCode = ctrlKaryawan.action(iCommand, IDKaryawan, imageDirectory); //melakukan proses dengan mengirimkan command yang dilakukan, IDKaryawan, dan folder directory tempat menyimpa file, dan mengembalikan kode error
+    iErrCode = ctrlPegawai.action(iCommand, IDPegawai, imageDirectory); //melakukan proses dengan mengirimkan command yang dilakukan, IDPegawai, dan folder directory tempat menyimpa file, dan mengembalikan kode error
     /* end switch*/
 
-    FrmKaryawan frmKaryawan = ctrlKaryawan.getForm(); //mengambil form dari control untuk proses menampilkan tampilan berikutnya
+    FrmPegawai frmPegawai = ctrlPegawai.getForm(); //mengambil form dari control untuk proses menampilkan tampilan berikutnya
 
     /*count list All Product*/
-    int vectSize = PstKaryawan.getCount(whereClause); //mengambil jumlah data yang tersedia
-    Karyawan karyawan = ctrlKaryawan.getKaryawan(); //mengambil objek karyawan yang sedang dimaintenance
-    msgString = ctrlKaryawan.getMessage(); //mengambil nilai message utama dalam proses manipulasi data
+    int vectSize = PstPegawai.getCount(whereClause); //mengambil jumlah data yang tersedia
+    Pegawai pegawai = ctrlPegawai.getPegawai(); //mengambil objek pegawai yang sedang dimaintenance
+    msgString = ctrlPegawai.getMessage(); //mengambil nilai message utama dalam proses manipulasi data
 
 
-    /*switch list Karyawan*/ //proses untuk mendapatkan nilai start dari tabel yang akan ditampilkan
-    if ((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE) && (IDKaryawan == 0)) {
-        start = PstKaryawan.findLimitStart(karyawan.getOID(), recordToGet, whereClause, orderClause);
+    /*switch list Pegawai*/ //proses untuk mendapatkan nilai start dari tabel yang akan ditampilkan
+    if ((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE) && (IDPegawai == 0)) {
+        start = PstPegawai.findLimitStart(pegawai.getOID(), recordToGet, whereClause, orderClause);
     }
 
     if ((iCommand == Command.FIRST || iCommand == Command.PREV)
             || (iCommand == Command.NEXT || iCommand == Command.LAST)) {
-        start = ctrlKaryawan.actionList(iCommand, start, vectSize, recordToGet);
+        start = ctrlPegawai.actionList(iCommand, start, vectSize, recordToGet);
     }
     /* end switch list*/
 
     /* get record to display */ //mendapatkan list data yang akan ditampilkan
-    listKaryawan = PstKaryawan.list(start, recordToGet, whereClause, orderClause);
+    listPegawai = PstPegawai.list(start, recordToGet, whereClause, orderClause);
 
     /*handle condition if size of record to display = 0 and start > 0 	after delete*/
-    if (listKaryawan.size() < 1 && start > 0) {
+    if (listPegawai.size() < 1 && start > 0) {
         if (vectSize - recordToGet > recordToGet) {
             start = start - recordToGet;   //go to Command.PREV
         } else {
@@ -200,7 +201,7 @@
             iCommand = Command.FIRST;
             prevCommand = Command.FIRST; //go to Command.FIRST
         }
-        listKaryawan = PstKaryawan.list(start, recordToGet, whereClause, orderClause);
+        listPegawai = PstPegawai.list(start, recordToGet, whereClause, orderClause);
     }
 
     //Setting status input apakah melakukan penambahan record baru, edit record lama, atau status pending (konfirmasi delete, cancel delete, atau masih ada error saat save
@@ -208,7 +209,7 @@
         statusInput = 1;
     } else if (iCommand == Command.ASK || iCommand == Command.EDIT) {
         statusInput = 2;
-    } else if (iCommand == Command.SAVE && frmKaryawan.errorSize() > 0) {
+    } else if (iCommand == Command.SAVE && frmPegawai.errorSize() > 0) {
         statusInput = 9;
     }
 
@@ -216,7 +217,7 @@
 
 <%@ include file = "../session.jsp"%> 
 <%
-    if (privMaintenanceDataKaryawan == false) {
+    if (privMaintenanceDataPegawai == false) {
 %>
 <script>
     window.alert("Anda Tidak Memiliki Privilege Halaman Ini!");
@@ -225,191 +226,242 @@
 <%    }
 %>
 
-<script language="JavaScript">
-    function cmdAdd() {
-        document.frmkaryawan.hidden_karyawan_id.value = "0";
-        document.frmkaryawan.command.value = "<%=Command.ADD%>";
-        document.frmkaryawan.prev_command.value = "<%=prevCommand%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdDelete(IDKaryawan) {
-        document.frmkaryawan.hidden_karyawan_id.value = IDKaryawan;
-        document.frmkaryawan.command.value = "<%=Command.DELETE%>";
-        document.frmkaryawan.prev_command.value = "<%=prevCommand%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdSave() {
-        document.frmkaryawan.command.value = "<%=Command.SAVE%>";
-        document.frmkaryawan.prev_command.value = "<%=prevCommand%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdEdit(IDKaryawan) {
-        document.frmkaryawan.hidden_karyawan_id.value = IDKaryawan;
-        document.frmkaryawan.command.value = "<%=Command.EDIT%>";
-        document.frmkaryawan.prev_command.value = "<%=prevCommand%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdListFirst() {
-        document.frmkaryawan.command.value = "<%=Command.FIRST%>";
-        document.frmkaryawan.prev_command.value = "<%=Command.FIRST%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdListPrev() {
-        document.frmkaryawan.command.value = "<%=Command.PREV%>";
-        document.frmkaryawan.prev_command.value = "<%=Command.PREV%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdListNext() {
-        document.frmkaryawan.command.value = "<%=Command.NEXT%>";
-        document.frmkaryawan.prev_command.value = "<%=Command.NEXT%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-    function cmdListLast() {
-        document.frmkaryawan.command.value = "<%=Command.LAST%>";
-        document.frmkaryawan.prev_command.value = "<%=Command.LAST%>";
-        document.frmkaryawan.action = "index.jsp?page=master/karyawan.jsp";
-        document.frmkaryawan.submit();
-    }
-</script>
-<form role="form" name="frmkaryawan" method ="post" action="" enctype="multipart/form-data">
+<form class="form-horizontal" role="form" id="form-pegawai" method ="post" action="" enctype="multipart/form-data">
     <input type="hidden" name="command" value="<%=iCommand%>">
     <input type="hidden" name="vectSize" value="<%=vectSize%>">
     <input type="hidden" name="start" value="<%=start%>">
     <input type="hidden" name="prev_command" value="<%=prevCommand%>">
-    <input type="hidden" name="hidden_karyawan_id" value="<%=IDKaryawan%>">  
-    <table width="100%" border="0">
-        <tr>
-            <td><table width="100%" border="0">
-                    <tr>
-                        <td bgcolor="#CCCCCC">Nama Pegawai</td>
-                        <td bgcolor="#CCCCCC">Jabatan</td>
-                        <td bgcolor="#CCCCCC">Alamat</td>
-
-                    </tr>
-                    <%
-                        for (int i = 0; i < listKaryawan.size(); i++) {
-                            Karyawan view = (Karyawan) listKaryawan.get(i);
-                            Vector listKeahlian = PstKeahlianKaryawan.list(0, 0, PstKeahlianKaryawan.fieldNames[PstKeahlianKaryawan.FLD_KARYAWAN_ID] + " = '" + view.getOID() + "'", "");
-                    %>
-                    <tr>
-                        <td><a href="javascript:cmdEdit('<%=view.getOID()%>')"><%=view.getNamaKaryawan()%></a></td>
-                        <td><%=view.getJabatan()%></td>
-                        <td><%=view.getAlamat()%></td>
-
-                    </tr>
-                    <%
-                        }
-                    %>
-                    <tr>
-                        <td colspan="4"><div style='float:right;'><span class="command">
-                                    <%
-                                        int cmd = 0;
-                                        if ((iCommand == Command.FIRST || iCommand == Command.PREV) || (iCommand == Command.NEXT || iCommand == Command.LAST)) {
-                                            cmd = iCommand;
-                                        } else {
-                                            if (iCommand == Command.NONE || prevCommand == Command.NONE) {
-                                                cmd = Command.FIRST;
-                                            } else {
-                                                if ((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE) && (IDKaryawan == 0)) {
-                                                    cmd = PstKaryawan.findLimitCommand(start, recordToGet, vectSize);
-                                                } else {
-                                                    cmd = prevCommand;
-                                                }
-                                            }
-                                        }
-                                    %>
-                                    <%
-                                        ctrLine.setLocationImg("images");
-                                        ctrLine.initDefault();
-                                    %>
-                                    <%=ctrLine.drawImageListLimit(cmd, vectSize, start, recordToGet)%> </span></div><label>
-                                <input onclick="javascript:cmdAdd()" type="submit" name="button" id="button" value="Add">
-                            </label></td>
-                    </tr>
-                </table></td>
-        </tr>
-        <tr>
-            <td><%=msgString%></td>
-        </tr>
-        <tr>
-            <td>
-                <%if ((iCommand == Command.ADD) || (iCommand == Command.EDIT) || (frmKaryawan.errorSize() > 0)) {%>
-                <table width="100%" border="0">
-                    <tr>
-                        <td colspan="2" bgcolor="#CCCCCC">Form Data Karyawan</td>
-                    </tr>            
-                    <tr>
-                        <td>Nama Karyawan</td>
-                        <td><label>
-                                <input type="text" name="<%=frmKaryawan.fieldNames[FrmKaryawan.FRM_NAMA]%>" id="textfield" value="<%=karyawan.getNamaKaryawan()%>">
-                            </label></td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal Lahir</td>
-                        <td><label>
-                                <%=ControlDate.drawDate(frmKaryawan.fieldNames[FrmKaryawan.FRM_TANGGAL_LAHIR], karyawan.getTanggalLahir() == null ? new Date() : karyawan.getTanggalLahir(), "formElemen", 3, -3)%>
-                            </label></td>
-                    </tr>
-                    <tr>
-                        <td>Jabatan</td>
-                        <td><label>
-                                <input type="text" name="<%=frmKaryawan.fieldNames[FrmKaryawan.FRM_JABATAN]%>" id="textfield" value="<%=karyawan.getJabatan()%>">
-                            </label></td>
-                    </tr>
-                    <tr>
-                        <td>Alamat</td>
-                        <td><label>
-                                <input type="text" name="<%=frmKaryawan.fieldNames[FrmKaryawan.FRM_ALAMAT]%>" id="textfield" value="<%=karyawan.getAlamat()%>">
-                            </label></td>
-                    </tr>
-                    <tr>
-                        <td>Keahlian</td>
-                        <td><label>
-                                <select name="<%=frmKaryawan.fieldNames[FrmKaryawan.FRM_KEAHLIAN_KARYAWAN]%>">                          
-                                    <%
-                                        Vector listKeahlian = PstKeahlian.listAll();
-                                        Keahlian selectedkeahlian = new Keahlian();
-                                        if (IDKaryawan != 0) {
-                                            Vector listKaryawanKeahlian = PstKeahlianKaryawan.list(0, 1, PstKeahlianKaryawan.fieldNames[PstKeahlianKaryawan.FLD_KARYAWAN_ID] + " = '" + IDKaryawan + "'", "");
-                                            selectedkeahlian = PstKeahlian.fetchExc(((KeahlianKaryawan) listKaryawanKeahlian.get(0)).getIdKeahlian());
-                                        }
-                                    %>
-                                    <%if (selectedkeahlian.getOID() != 0) {
-                                    %>
-                                    <option selected value="<%=selectedkeahlian.getOID()%>"><%=selectedkeahlian.getNamaKeahlian()%></option>
-                                    <%
-                              }%>
-                                    <%
-                                        for (int i = 0; i < listKeahlian.size(); i++) {
-                                            Keahlian keahlian = (Keahlian) listKeahlian.get(i);
-                                            if (selectedkeahlian.getOID() != keahlian.getOID()) {
-                                    %>
-                                    <option value="<%=keahlian.getOID()%>"><%=keahlian.getNamaKeahlian()%></option>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </select>
-                            </label></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input onclick="javascript:cmdSave()" type="submit" name="button2" id="button2" value="Save">
-                            <%if (IDKaryawan != 0) {%>
-                            <input onclick="javascript:cmdDelete('<%=IDKaryawan%>')" type="submit" name="button3" id="button3" value="Delete">
-                            <%}%>
-                        </td>
-                    </tr>
-                </table>
-                <%}%>
-            </td>
-        </tr>
-    </table>
+    <input type="hidden" name="hidden_pegawai_id" value="<%=IDPegawai%>">
+    <%if ((iCommand == Command.ADD) || (iCommand == Command.EDIT) || (frmPegawai.errorSize() > 0)) {%>
+    <div class="panel panel-default">
+        <%if (IDPegawai != 0) {%>
+        <div class="panel-heading">Edit Pegawai</div>
+        <% } else { %>
+        <div class="panel-heading">Pegawai Baru</div>
+        <% } %>
+        <div class="panel-body">
+            <div class="form-group has-error text-center">
+                <span class="help-block"><%=msgString%></span>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="code">Nama Pegawai</label>  
+                <div class="col-md-7">
+                    <input name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_NAMA]%>" type="text" placeholder="Nama Pegawai" value="<%=pegawai.getNamaPegawai()%>" class="form-control" autocomplete="off" required="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="code">Jenis Kelamin</label>  
+                <div class="col-md-3">
+                    <select class="form-control" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_JENIS_KELAMIN]%>">
+                        <option value="L">Laki-Laki</option>
+                        <% if("P".equals(pegawai.getJenisKelamin())) { %>
+                            <option selected value="P">Perempuan</option
+                        <% } else { %>>
+                            <option value="P">Perempuan</option
+                        <% } %>>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="value">Tanggal Lahir</label>  
+                <div class="col-md-7">
+                    <input type="hidden" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_TEMPAT_LAHIR]%>" value="<%=pegawai.getTempatLahir()%>">
+                    <%=ControlDate.drawDate(frmPegawai.fieldNames[FrmPegawai.FRM_TANGGAL_LAHIR], pegawai.getTanggalLahir() == null ? new Date() : pegawai.getTanggalLahir(), "formElemen", 0, -40)%>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="value">Alamat</label>  
+                <div class="col-md-7">
+                    <input type="text" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_ALAMAT]%>" placeholder="Alamat Pegawai" value="<%=pegawai.getAlamat()%>" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="value">Pendidikan</label>  
+                <div class="col-md-7">
+                    <input type="text" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_PENDIDIKAN]%>" placeholder="Pendidikan Pegawai" value="<%=pegawai.getPendidikan()%>" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="value">Email</label>  
+                <div class="col-md-7">
+                    <input type="text" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_EMAIL]%>" placeholder="Email Pegawai" value="<%=pegawai.getEmail()%>" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="value">Jabatan</label>  
+                <div class="col-md-7">
+                    <input type="text" name="<%=frmPegawai.fieldNames[FrmPegawai.FRM_JABATAN]%>" placeholder="Jabatan Pegawai" value="<%=pegawai.getJabatan()%>" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3"></div>
+                <div class="col-md-7">
+                    <button type="button" class="btn btn-primary btn-save">Simpan</button>
+                    <button type="button" class="btn btn-default btn-cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
 </form>
+
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col col-xs-6">
+                <h3 class="panel-title">Data Pegawai</h3>
+            </div>
+            <div class="col col-xs-6 text-right">
+                <button type="button" class="btn btn-sm btn-primary btn-add">Add New</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-bordered table-list">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>NIP</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Email</th>
+                    <th>Pendidikan</th>
+                    <th>Jabatan</th>
+                    <th>
+                        <em class="glyphicon glyphicon-cog"></em>
+                    </th>
+                </tr> 
+            </thead>
+            <tbody>
+                <%
+                    for (int i = 0; i < listPegawai.size(); i++) {
+                        Pegawai view = (Pegawai) listPegawai.get(i);
+                %>
+                <tr>
+                    <td align="center"><%=i + start + 1%></td>
+                    <td><%=view.getNip()%></td>
+                    <td><%=view.getNamaPegawai()%></td>
+                    <td><%=view.getAlamat()%></td>
+                    <td><%=view.getEmail()%></td>
+                    <td><%=view.getPendidikan()%></td>
+                    <td><%=view.getJabatan()%></td>
+                    <td align="center">
+                        <a href="javascript:cmdEdit('<%=view.getOID()%>')" title="Edit <%=view.getOID()%>" class="btn btn-sm btn-default">
+                            <em class="glyphicon glyphicon-pencil"></em>
+                        </a>
+                        <button value="<%=view.getOID()%>" title="Hapus <%=view.getOID()%>" class="btn btn-sm btn-danger btn-delete">
+                            <em class="glyphicon glyphicon-trash"></em>
+                        </button>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col col-xs-4">
+                <%
+                    int cmd = 0;
+                    if ((iCommand == Command.FIRST || iCommand == Command.PREV) || (iCommand == Command.NEXT || iCommand == Command.LAST)) {
+                        cmd = iCommand;
+                    } else {
+                        if (iCommand == Command.NONE || prevCommand == Command.NONE) {
+                            cmd = Command.FIRST;
+                        } else {
+                            if ((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE) && (IDPegawai == 0)) {
+                                cmd = PstAppConfig.findLimitCommand(start, recordToGet, vectSize);
+                            } else {
+                                cmd = prevCommand;
+                            }
+                        }
+                    }
+                %>
+                <%= paginator.render(cmd, vectSize, start, recordToGet)%>
+            </div>
+            <div class="col col-xs-8">
+                <div class="pull-right">
+                    <%= paginator.getPagingInfo() %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                
+<script language="JavaScript">
+    $('.btn-delete').click(function() {
+        var IDAppConfig = $(this).val();
+        bootbox.confirm("Hapus " + IDAppConfig + "?", function(result) {
+            if (result) {
+                cmdDelete(IDAppConfig);
+            }
+        });
+    });
+    $('.btn-add').click(function() {
+        cmdAdd();
+    });
+    $('.btn-cancel').click(function() {
+        $('#form-pegawai').find('input[name=hidden_pegawai_id]').val("0");
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.NONE%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    });
+    $('.btn-save').click(function() {
+        cmdSave();
+    });
+
+    function cmdAdd() {
+        $('#form-pegawai').find('input[name=hidden_pegawai_id]').val("0");
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.ADD%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=prevCommand%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdDelete(IDAppConfig) {
+        $('#form-pegawai').find('input[name=hidden_pegawai_id]').val(IDAppConfig);
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.DELETE%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=prevCommand%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdSave() {
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.SAVE%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=prevCommand%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdEdit(IDAppConfig) {
+        $('#form-pegawai').find('input[name=hidden_pegawai_id]').val(IDAppConfig);
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.EDIT%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=prevCommand%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdListFirst() {
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.FIRST%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=Command.FIRST%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdListPrev() {
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.PREV%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=Command.PREV%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdListNext() {
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.NEXT%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=Command.NEXT%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+    function cmdListLast() {
+        $('#form-pegawai').find('input[name=command]').val("<%=Command.LAST%>");
+        $('#form-pegawai').find('input[name=prev_command]').val("<%=Command.LAST%>");
+        $('#form-pegawai').attr('action', "index.jsp?page=master/pegawai.jsp");
+        $('#form-pegawai').submit();
+    }
+</script>

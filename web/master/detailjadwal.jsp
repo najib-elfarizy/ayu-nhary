@@ -165,7 +165,7 @@
 
     Jadwal selectJadwal = PstJadwal.fetchExc(detailjadwal.getIdJadwal());
     Proyek selectProyek = PstProyek.fetchExc(detailjadwal.getIdProyek());
-    Karyawan selectKaryawan = PstKaryawan.fetchExc(detailjadwal.getNIK());
+    Pegawai selectPegawai = PstPegawai.fetchExc(detailjadwal.getNIP());
     
     if(IDProyek!=0){
         selectProyek = PstProyek.fetchExc(IDProyek);
@@ -195,7 +195,7 @@
     listDetailJadwal = PstDetailJadwal.listJoinJadwalNew(start, recordToGet);
     Vector listJadwal = PstJadwal.listAll();
     Vector listProyek = PstProyek.listAll();
-    Vector listKaryawan = PstKaryawan.listAll();
+    Vector listPegawai = PstPegawai.listAll();
 
     /*handle condition if size of record to display = 0 and start > 0 	after delete*/
     if (listDetailJadwal.size() < 1 && start > 0){
@@ -308,20 +308,20 @@ window.location="index.jsp?page";
               <td width="5%" bgcolor="#CCCCCC">No</td>
                <td bgcolor="#CCCCCC">Jadwal</td>
               <td width="30%" bgcolor="#CCCCCC">Proyek</td>
-              <td width="30%" bgcolor="#CCCCCC">Karyawan</td>
+              <td width="30%" bgcolor="#CCCCCC">Pegawai</td>
             </tr>
             <%
             for(int i=0; i<listDetailJadwal.size(); i++){
                 DetailJadwal view = (DetailJadwal)listDetailJadwal.get(i);
                 Jadwal jadwal = PstJadwal.fetchExc(view.getIdJadwal());
                 Proyek proyek = PstProyek.fetchExc(view.getIdProyek());
-                Karyawan karyawan = PstKaryawan.fetchExc(view.getNIK());
+                Pegawai karyawan = PstPegawai.fetchExc(view.getNIP());
             %>
             <tr>
               <td><%=i+start+1%></td>
               <td><a href="javascript:cmdEdit('<%=view.getOID()%>')"><%=jadwal.getNamaJadwal()%></a></td>
               <td><%=proyek.getNamaProyek()%></td>
-              <td><%=karyawan.getNamaKaryawan()%></td>
+              <td><%=karyawan.getNamaPegawai()%></td>
             </tr>
             <%
             }
@@ -404,18 +404,18 @@ window.location="index.jsp?page";
                   </label></td>
             </tr>
             <tr>
-              <td>Nama Karyawan</td>
+              <td>Nama Pegawai</td>
               <td><label>
-                  <select name="<%=frmDetailJadwal.fieldNames[FrmDetailJadwal.FRM_NIK]%>">
-                      <%if(selectKaryawan.getOID()!=0){%>
-                      <option selected value="<%=selectKaryawan.getOID()%>"><%=selectKaryawan.getNamaKaryawan()%></option>
+                  <select name="<%=frmDetailJadwal.fieldNames[FrmDetailJadwal.FRM_NIP]%>">
+                      <%if(selectPegawai.getOID()!=0){%>
+                      <option selected value="<%=selectPegawai.getOID()%>"><%=selectPegawai.getNamaPegawai()%></option>
                             <%}%>
                           <%
-                          for(int i=0; i<listKaryawan.size(); i++){
-                              Karyawan ent = (Karyawan)listKaryawan.get(i);
-                              if(selectKaryawan.getOID()!=ent.getOID()){
+                          for(int i=0; i<listPegawai.size(); i++){
+                              Pegawai ent = (Pegawai)listPegawai.get(i);
+                              if(selectPegawai.getOID()!=ent.getOID()){
                           %>
-                          <option value="<%=ent.getOID()%>"><%=ent.getNamaKaryawan()%></option>
+                          <option value="<%=ent.getOID()%>"><%=ent.getNamaPegawai()%></option>
                           <%
                           }
                           }

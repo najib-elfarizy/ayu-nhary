@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin:0;
+    padding: 0;
+}
+
+body .container { max-width:960px; }
+
+.page-header { margin: 0; }
+.page-header p { font-size: 14px }
+
+.content {
+    margin-top: 10px;
+    min-height: 280px;
+}
+
+.panel .panel-sm .footer { padding : 10px 15px; }
+
+.panel-table .panel-body{
+    padding:0;
+}
+
+.panel-table .panel-body .table-bordered{
+    border-style: none;
+    margin:0;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th {
+    text-align:center;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:last-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:last-of-type {
+    border-right: 0px;    
+    width: 100px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr > th:first-of-type,
+.panel-table .panel-body .table-bordered > tbody > tr > td:first-of-type {
+    border-left: 0px;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr:first-of-type > td{
+    border-bottom: 0px;
+}
+
+.panel-table .panel-body .table-bordered > thead > tr:first-of-type > th{
+    border-top: 0px;
+}
+
+.panel-table .panel-footer .pagination{
+    margin:0; 
+}
+
+/*
+used to vertically center elements, may need modification if you're not using default sizes.
+*/
+.panel-table .panel-footer .col{
+    line-height: 34px;
+    height: 34px;
+}
+
+.panel-table .panel-heading .col h3{
+    line-height: 30px;
+    height: 30px;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr > td{
+    line-height: 34px;
+}
+
+.footer {
+    padding: 0;
+    margin-top: 10px;
+    background: #f5f5f5;	
+}
+.footer div {
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0;	
+}
+.footer p {
+    color: #c1c1c1;
+    font-size: 12px;
+    text-align: center;	
+    padding: 10px 0 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+#cssmenu .stickytop {
+    position:fixed;
+    width: 100%;
+    top:0
+}

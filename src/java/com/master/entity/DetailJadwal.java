@@ -14,7 +14,7 @@ public class DetailJadwal extends Entity {
     
     private long IdJadwal;
     private long IdProyek;
-    private long NIK;
+    private long NIP;
     private Date JamMulai = new Date();
     private Date JamSelesai = new Date();
 
@@ -47,17 +47,17 @@ public class DetailJadwal extends Entity {
     }
 
     /**
-     * @return the NIK
+     * @return the NIP
      */
-    public long getNIK() {
-        return NIK;
+    public long getNIP() {
+        return NIP;
     }
 
     /**
-     * @param NIK the NIK to set
+     * @param NIP the NIP to set
      */
-    public void setNIK(long NIK) {
-        this.NIK = NIK;
+    public void setNIP(long NIP) {
+        this.NIP = NIP;
     }
 
     /**

@@ -20,7 +20,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
     public static final int FLD_ID_DETAIL_JADWAL       = 0;
     public static final int FLD_ID_JADWAL              = 1;
     public static final int FLD_ID_PROYEK              = 2;
-    public static final int FLD_NIK           = 3;
+    public static final int FLD_NIP           = 3;
     public static final int FLD_JAM_MULAI              = 4;
     public static final int FLD_JAM_SELESAI             = 5;
       
@@ -28,7 +28,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
         "ID_DETAIL_JADWAL",
         "ID_JADWAL",
         "ID_PROYEK",
-        "NIK",
+        "NIP",
         "JAM_MULAI",
         "JAM_SELESAI"
     };
@@ -104,7 +104,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
             entObj.setOID(oid);           
             entObj.setIdJadwal(pstObj.getlong(FLD_ID_JADWAL));
             entObj.setIdProyek(pstObj.getlong(FLD_ID_PROYEK));
-            entObj.setNIK(pstObj.getlong(FLD_NIK));
+            entObj.setNIP(pstObj.getlong(FLD_NIP));
             entObj.setJamMulai(pstObj.getDate(FLD_JAM_MULAI));
             entObj.setJamSelesai(pstObj.getDate(FLD_JAM_SELESAI));
             return entObj;
@@ -125,7 +125,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
                 PstDetailJadwal pstObj = new PstDetailJadwal(entObj.getOID());           
                 pstObj.setLong(FLD_ID_JADWAL, entObj.getIdJadwal());
                 pstObj.setLong(FLD_ID_PROYEK, entObj.getIdProyek());
-                pstObj.setLong(FLD_NIK, entObj.getNIK());
+                pstObj.setLong(FLD_NIP, entObj.getNIP());
                 pstObj.setDate(FLD_JAM_MULAI, entObj.getJamMulai());
                 pstObj.setDate(FLD_JAM_SELESAI, entObj.getJamSelesai());
                 pstObj.update();
@@ -184,7 +184,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
         PstDetailJadwal pstObj = new PstDetailJadwal(0);        
         pstObj.setLong(FLD_ID_JADWAL, entObj.getIdJadwal());
         pstObj.setLong(FLD_ID_PROYEK, entObj.getIdProyek());
-        pstObj.setLong(FLD_NIK, entObj.getNIK());
+        pstObj.setLong(FLD_NIP, entObj.getNIP());
        
                 pstObj.setDate(FLD_JAM_MULAI, entObj.getJamMulai());
                 pstObj.setDate(FLD_JAM_SELESAI, entObj.getJamSelesai());     
@@ -231,8 +231,8 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
 	Vector lists = new Vector();
 	DBResultSet dbrs = null;
 	try {
-            String sql = "SELECT jadwal_detail.`ID_DETAIL_JADWAL`, jadwal_detail.`ID_JADWAL`, jadwal_detail.`ID_PROYEK`, jadwal_detail.`JAM_MULAI`, jadwal_detail.`JAM_SELESAI`, jadwal_detail.`NIK` " +
-                         "FROM jadwal_detail INNER JOIN jadwal ON jadwal_detail.`ID_JADWAL` = jadwal.`ID_JADWAL` WHERE jadwal.`STATUS`= ' 0 ' ORDER BY jadwal.`ID_JADWAL`";   
+            String sql = "SELECT jadwal_detail.`ID_DETAIL_JADWAL`, jadwal_detail.`ID_JADWAL`, jadwal_detail.`ID_PROYEK`, jadwal_detail.`JAM_MULAI`, jadwal_detail.`JAM_SELESAI`, jadwal_detail.`NIP` " +
+                         "FROM jadwal_detail INNER JOIN jadwal ON jadwal_detail.`ID_JADWAL` = jadwal.`ID_JADWAL` WHERE jadwal.`STATUS`= ' 0 ' ORDER BY `ID_PROYEK` DESC";   
             if(limitStart == 0 && recordToGet == 0)
                 sql = sql + "";
             else
@@ -260,7 +260,7 @@ public class PstDetailJadwal extends DBHandler implements I_DBInterface, I_DBTyp
             ent.setOID(rs.getLong(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_ID_DETAIL_JADWAL]));
             ent.setIdJadwal(rs.getLong(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_ID_JADWAL]));
             ent.setIdProyek(rs.getLong(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_ID_PROYEK]));
-            ent.setNIK(rs.getLong(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_NIK]));
+            ent.setNIP(rs.getLong(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_NIP]));
             ent.setJamMulai(rs.getDate(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_JAM_MULAI]));
             ent.setJamSelesai(rs.getDate(PstDetailJadwal.fieldNames[PstDetailJadwal.FLD_JAM_SELESAI]));
 	}catch(Exception e){ }

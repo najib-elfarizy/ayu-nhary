@@ -30,16 +30,16 @@ public class Kromosom {
     }
     
     public float getNilaiFitness(){
-        Vector listKaryawan = new Vector();
+        Vector listPegawai = new Vector();
         float totalWaktu = 0;
         for(int i=0; i<arrayGen.length; i++){
-            if(!listKaryawan.contains(arrayGen[i].getIdKaryawan())){
-                listKaryawan.add(arrayGen[i].getIdKaryawan());
+            if(!listPegawai.contains(arrayGen[i].getIdPegawai())){
+                listPegawai.add(arrayGen[i].getIdPegawai());
             }
             totalWaktu = totalWaktu + arrayGen[i].getWaktu();
         }
         
-        int n = listKaryawan.size();
+        int n = listPegawai.size();
         float m = totalWaktu/n;
         float jumlah = 0;
         for(int i=0; i<arrayGen.length; i++){

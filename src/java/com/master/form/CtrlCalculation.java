@@ -131,7 +131,7 @@ public class CtrlCalculation extends Control implements I_Language {
                         DetailJadwal detailjadwal = (DetailJadwal)listDetailJadwal.get(j);
                         try{
                             Proyek proyek = PstProyek.fetchExc(detailjadwal.getIdProyek());
-                            arrayGen[j] = new Gen(proyek.getOID(), detailjadwal.getNIK(), proyek.getTotal());
+                            arrayGen[j] = new Gen(proyek.getOID(), detailjadwal.getNIP(), proyek.getTotal());
                         }catch(Exception e){
                             e.printStackTrace();
                         }

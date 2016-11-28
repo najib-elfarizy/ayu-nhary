@@ -6,13 +6,15 @@
 <%
     boolean isLoggedIn = false;
     boolean privView = true;
-    boolean privViewDataKaryawan = false;
+//    boolean privViewDataKaryawan = false;
+    boolean privViewDataPegawai = false;
     boolean privViewKeahlian = false;
     boolean privViewProyek = false;
     boolean privViewJadwal = false;
     boolean privUpdateJadwal = false;
     boolean privMaintenanceData = false;
-    boolean privMaintenanceDataKaryawan = false;
+//    boolean privMaintenanceDataKaryawan = false;
+    boolean privMaintenanceDataPegawai = false;
     boolean privMaintenanceKeahlian = false;
     boolean privProyek = false;
     boolean privJadwal = false;
@@ -23,6 +25,7 @@
     boolean privUsers = false;
     boolean privGroups = false;
     boolean privPrivileges = false;
+    boolean privSettings = false;
 
     String username = "";
     SessUserSession userSession = (SessUserSession) session.getValue(SessUserSession.HTTP_SESSION_NAME);
@@ -37,8 +40,8 @@
             String[] groupname = new String[vUserGroup.size()];
             for (int i = 0; i < vUserGroup.size(); i++) {
                 groupname[i] = (PstAppGroup.fetchExc(((UserGroup) vUserGroup.get(i)).getIdGroup())).getGroupName();
-                AppGroup appgroup = PstAppGroup.fetchExc(((UserGroup) vUserGroup.get(i)).getIdGroup());
-                Vector vGroupPriv = PstGroupPriv.list(0, 500, "" + PstGroupPriv.fieldNames[PstGroupPriv.FLD_GROUP_ID] + " = " + appgroup.getOID(), "");
+                AppGroup app_group = PstAppGroup.fetchExc(((UserGroup) vUserGroup.get(i)).getIdGroup());
+                Vector vGroupPriv = PstGroupPriv.list(0, 500, "" + PstGroupPriv.fieldNames[PstGroupPriv.FLD_GROUP_ID] + " = " + app_group.getOID(), "");
                 if (vGroupPriv.size() > 0) {
                     String[] grouppriv = new String[vGroupPriv.size()];
                     for (int j = 0; j < vGroupPriv.size(); j++) {
@@ -52,7 +55,8 @@
                     }
                     if (Arrays.asList(grouppriv).contains("2")) {
                         privMaintenanceData = true;
-                        privMaintenanceDataKaryawan = true;
+//                        privMaintenanceDataKaryawan = true;
+                        privMaintenanceDataPegawai = true;
                         privMaintenanceKeahlian = true;
                         privProyek = true;
                         privJadwal = true;
@@ -79,6 +83,9 @@
                         privView = true;
                         privViewJadwal = true;
                         privUpdateJadwal = true;
+                    }
+                    if (Arrays.asList(grouppriv).contains("10")) {
+                        privSettings = true;
                     }
                 }
             }

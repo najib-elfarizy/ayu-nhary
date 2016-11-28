@@ -164,7 +164,7 @@
 
     Jadwal selectJadwal = PstJadwal.fetchExc(detailjadwal.getIdJadwal());
     Proyek selectProyek = PstProyek.fetchExc(detailjadwal.getIdProyek());
-    Karyawan selectKaryawan = PstKaryawan.fetchExc(detailjadwal.getNIK());
+    Pegawai selectPegawai = PstPegawai.fetchExc(detailjadwal.getNIP());
     
     /*switch list DetailJadwal*/ //proses untuk mendapatkan nilai start dari tabel yang akan ditampilkan
     if((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE)&& (IDDetailJadwal == 0))
@@ -178,9 +178,9 @@
 
     /* get record to display */ //mendapatkan list data yang akan ditampilkan
     listDetailJadwal = PstDetailJadwal.list(start, recordToGet, whereClause, orderClause);
-    Vector listJadwal = PstJadwal.listAll();
-    Vector listProyek = PstProyek.listAll();
-    Vector listKaryawan = PstKaryawan.listAll();
+//    Vector listJadwal = PstJadwal.listAll();
+//    Vector listProyek = PstProyek.listAll();
+//    Vector listPegawai = PstPegawai.listAll();
 
     /*handle condition if size of record to display = 0 and start > 0 	after delete*/
     if (listDetailJadwal.size() < 1 && start > 0){
@@ -245,7 +245,7 @@
             <tr>
               <td width="5%" bgcolor="#CCCCCC">No</td>
               <td width="30%" bgcolor="#CCCCCC">Proyek</td>
-              <td width="30%" bgcolor="#CCCCCC">Karyawan</td>
+              <td width="30%" bgcolor="#CCCCCC">Pegawai</td>
               <td bgcolor="#CCCCCC">Waktu Mulai</td>
               <td bgcolor="#CCCCCC">Waktu Selesai</td>
             </tr>
@@ -253,7 +253,7 @@
             for(int i=0; i<listDetailJadwal.size(); i++){
                 DetailJadwal view = (DetailJadwal)listDetailJadwal.get(i);
                 Proyek proyek = PstProyek.fetchExc(view.getIdProyek());
-                Karyawan karyawan = PstKaryawan.fetchExc(view.getNIK());
+                Pegawai karyawan = PstPegawai.fetchExc(view.getNIP());
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy '/' HH:mm");
                 Date waktuMulai = proyek.getWaktuMulai();
                 Date waktuSelesai = proyek.getWaktuSelesai();
@@ -261,7 +261,7 @@
             <tr>
               <td><%=i+start+1%></td>
               <td><%=proyek.getNamaProyek()%></td>
-              <td><%=karyawan.getNamaKaryawan()%></td>
+              <td><%=karyawan.getNamaPegawai()%></td>
               <td><%=dateFormat.format(waktuMulai)%></td>
               <td><%=dateFormat.format(waktuSelesai)%></td>
             </tr>

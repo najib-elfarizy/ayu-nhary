@@ -18,32 +18,36 @@
 
 <%!
     /*
-    Method untuk memilih image mana yang ditampilkan
-    Input:
-    - int statusInput: opsi 1, 2, dan 9
-    - String defaultFilename: untu menyimpan nama file yang digunakan sebagai default
-    - String tempFilename: untuk menyimpan nama file yang disimpan pada saat proses maintenance data sedang berlangsung
-    - String filename: untuk menyimpan nama file yang sudah diconfirm untuk disimpan
-    Output:
-    - String nama file yang akan ditampilkan
-    Proses:
-    - Apabila status input = 1, defaultFilename
-    - Apabila status input = 9, tempFilename
-    - Apabila status input = 2 dan filename tersedia, filename
-    - Apabila tidak tersedia, defaultFilename
-    Opsi Perubahan:
-    - ---
-    */
-    private String choosePicture (int statusInput, String directoryName, String defaultFilename, String tempFilename, String filename) {
+     Method untuk memilih image mana yang ditampilkan
+     Input:
+     - int statusInput: opsi 1, 2, dan 9
+     - String defaultFilename: untu menyimpan nama file yang digunakan sebagai default
+     - String tempFilename: untuk menyimpan nama file yang disimpan pada saat proses maintenance data sedang berlangsung
+     - String filename: untuk menyimpan nama file yang sudah diconfirm untuk disimpan
+     Output:
+     - String nama file yang akan ditampilkan
+     Proses:
+     - Apabila status input = 1, defaultFilename
+     - Apabila status input = 9, tempFilename
+     - Apabila status input = 2 dan filename tersedia, filename
+     - Apabila tidak tersedia, defaultFilename
+     Opsi Perubahan:
+     - ---
+     */
+    private String choosePicture(int statusInput, String directoryName, String defaultFilename, String tempFilename, String filename) {
         String realFilename = "";
         File file1 = new File(directoryName + "/" + tempFilename);
-        if (file1.exists()) realFilename = tempFilename;
-        else {
+        if (file1.exists()) {
+            realFilename = tempFilename;
+        } else {
             if (!filename.matches("")) {
                 File file2 = new File(directoryName + "/" + filename);
-                if (file2.exists()) realFilename = filename;
+                if (file2.exists()) {
+                    realFilename = filename;
+                }
+            } else {
+                realFilename = defaultFilename;
             }
-            else realFilename = defaultFilename;
         }
         return realFilename;
     }
@@ -51,21 +55,23 @@
 
 <%!
     /*
-    Method untuk melakukan pengecekan apakah input form dengan nama yang sama sudah ada atau belum pada saat pembacaan input dari user
-    Input:
-    - String a: nilai string yang ingin diketahui sudah ada atau belum
-    - Hashtable originalParamValues: data dalam bentuk Hashtable yang berisikan data inputan user yang sudah dibaca sampai saat method ini dijalankan
-    Output:
-    - boolean apakan nama input form tersebut ada atau tidak
-    Proses:
-    - Melakukan looping terhadap data yang sudah tersimpan, dan mematch dengan string nama yang ingin dibandingkan
-    Opsi Perubahan:
-    - ---
-    */
+     Method untuk melakukan pengecekan apakah input form dengan nama yang sama sudah ada atau belum pada saat pembacaan input dari user
+     Input:
+     - String a: nilai string yang ingin diketahui sudah ada atau belum
+     - Hashtable originalParamValues: data dalam bentuk Hashtable yang berisikan data inputan user yang sudah dibaca sampai saat method ini dijalankan
+     Output:
+     - boolean apakan nama input form tersebut ada atau tidak
+     Proses:
+     - Melakukan looping terhadap data yang sudah tersimpan, dan mematch dengan string nama yang ingin dibandingkan
+     Opsi Perubahan:
+     - ---
+     */
     private boolean fieldNameExist(String a, Hashtable originalParamValues) {
         Enumeration K = originalParamValues.keys();
         while (K.hasMoreElements()) {
-            if (K.nextElement().equals(a)) return true;
+            if (K.nextElement().equals(a)) {
+                return true;
+            }
         }
         return false;
     }
@@ -75,7 +81,7 @@
     /*variable declaration*/
     int recordToGet = 5; //jumlah record maksimal yang ditampilkan dalam list tabel data
     int statusInput = 0;
-    
+
     int iErrCode = ExtendedFRMMessage.NONE; //untuk menyimpan kode error yang muncul selama proses maintenance data
     String msgString = ""; //untuk menyimpan pesan error utama yang muncul selama proses maintenance data
     String orderClause = PstAppUser.fieldNames[PstAppUser.FLD_USER_ID];//untuk menyimpan orderClause dalam proses menampilkan data dalam list tabel
@@ -87,7 +93,7 @@
     int start = 0; //untuk menyimpan indeks start di list mana data yang sedang menjadi fokus berada
     int prevCommand = 0; //untuk menyimpan nilai dari command yang sebelumnya dilakukan
     long IDAppUser = 0; //untuk menyimpan ID objek yang sedang dimaintenance (0: untuk data baru)
-    
+
     Hashtable paramValues = new Hashtable(); //Hashtable untuk menyimpan data inputan user secara sementara
 
     boolean isMultipart = ServletFileUpload.isMultipartContent(request); //Melihat apakah tipe form input data adalah Multipart/form-data atau tidak. Ini penting apabila record yang dimaintenance terdapat file yang ikut dimaintenance
@@ -117,26 +123,36 @@
             FileItem item = iter.next();
 
             if (item.isFormField()) { //untuk membaca inputan user yang bukan file dengan item.getFieldName() dan item.getString()
-                if (item.getFieldName().matches("command")) iCommand = Integer.parseInt(item.getString());
-                else if (item.getFieldName().matches("vectSize")) start = Integer.parseInt(item.getString());
-                else if (item.getFieldName().matches("start")) start = Integer.parseInt(item.getString());
-                else if (item.getFieldName().matches("prev_command")) prevCommand = Integer.parseInt(item.getString());
-                else if (item.getFieldName().matches("hidden_appuser_id")) IDAppUser = Long.parseLong(item.getString());
-                else {
+                if (item.getFieldName().matches("command")) {
+                    iCommand = Integer.parseInt(item.getString());
+                } else if (item.getFieldName().matches("vectSize")) {
+                    start = Integer.parseInt(item.getString());
+                } else if (item.getFieldName().matches("start")) {
+                    start = Integer.parseInt(item.getString());
+                } else if (item.getFieldName().matches("prev_command")) {
+                    prevCommand = Integer.parseInt(item.getString());
+                } else if (item.getFieldName().matches("hidden_appuser_id")) {
+                    IDAppUser = Long.parseLong(item.getString());
+                } else {
                     String fieldName = item.getFieldName();
 
                     Vector values;
-                    if (!fieldNameExist(fieldName, paramValues)) values = new Vector();
-                    else values = (Vector) paramValues.get(fieldName);
-                    
-                    value =  item.getString();
+                    if (!fieldNameExist(fieldName, paramValues)) {
+                        values = new Vector();
+                    } else {
+                        values = (Vector) paramValues.get(fieldName);
+                    }
+
+                    value = item.getString();
                     values.add(value);
                     paramValues.put(item.getFieldName(), values);
                 }
             } else { //untuk membaca inputan user yang berupa file dengan memanfaatkan item.getFieldName() dan item.getSize() untuk melihat ukuran. File disimpan secara temporary dengan nama 0_$nama field tabel database$
                 if (item.getSize() != 0) {
                     String namaFile = "";
-                    if (item.getFieldName().matches("fileFRM_FIELD_GAMBAR_COVER")) namaFile = "GAMBAR_COVER";
+                    if (item.getFieldName().matches("fileFRM_FIELD_GAMBAR_COVER")) {
+                        namaFile = "GAMBAR_COVER";
+                    }
                     identitasFile = imageDirectory + "/0_" + namaFile + ".jpg";
                     File uploadedFile = new File(identitasFile);
                     item.write(uploadedFile);
@@ -147,9 +163,9 @@
 
     CtrlAppUser ctrlAppUser = new CtrlAppUser(paramValues); //memanggil control untuk melakukan manipulasi data dengan mengirim Hashtable yang sudah ada nilai inputan user
     ExtendedControlLine ctrLine = new ExtendedControlLine(); //membuat sebuah control line untuk tempat command
-    Vector listAppUser = new Vector(1,1); //membuat sebuah vector yang berisikan data yang akan ditampilkan dalam list tabel
+    Vector listAppUser = new Vector(1, 1); //membuat sebuah vector yang berisikan data yang akan ditampilkan dalam list tabel
     String whereClause = ""; //untuk menyimpan whereClause dalam proses menampilkan data dalam list tabel
-    
+
     /*switch statement */
     iErrCode = ctrlAppUser.action(iCommand, IDAppUser, imageDirectory); //melakukan proses dengan mengirimkan command yang dilakukan, IDAppUser, dan folder directory tempat menyimpa file, dan mengembalikan kode error
     /* end switch*/
@@ -159,15 +175,15 @@
     /*count list All Product*/
     int vectSize = PstAppUser.getCount(whereClause); //mengambil jumlah data yang tersedia
     AppUser appuser = ctrlAppUser.getAppUser(); //mengambil objek appuser yang sedang dimaintenance
-    msgString =  ctrlAppUser.getMessage(); //mengambil nilai message utama dalam proses manipulasi data
+    msgString = ctrlAppUser.getMessage(); //mengambil nilai message utama dalam proses manipulasi data
 
-    
     /*switch list AppUser*/ //proses untuk mendapatkan nilai start dari tabel yang akan ditampilkan
-    if((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE)&& (IDAppUser == 0))
-	start = PstAppUser.findLimitStart(appuser.getOID(), recordToGet, whereClause, orderClause);
+    if ((iCommand == Command.SAVE) && (iErrCode == ExtendedFRMMessage.NONE) && (IDAppUser == 0)) {
+        start = PstAppUser.findLimitStart(appuser.getOID(), recordToGet, whereClause, orderClause);
+    }
 
-    if((iCommand == Command.FIRST || iCommand == Command.PREV )||
-        (iCommand == Command.NEXT || iCommand == Command.LAST)){
+    if ((iCommand == Command.FIRST || iCommand == Command.PREV)
+            || (iCommand == Command.NEXT || iCommand == Command.LAST)) {
         start = ctrlAppUser.actionList(iCommand, start, vectSize, recordToGet);
     }
     /* end switch list*/
@@ -176,159 +192,153 @@
     listAppUser = PstAppUser.list(start, recordToGet, whereClause, orderClause);
 
     /*handle condition if size of record to display = 0 and start > 0 	after delete*/
-    if (listAppUser.size() < 1 && start > 0){
-        if (vectSize - recordToGet > recordToGet)
+    if (listAppUser.size() < 1 && start > 0) {
+        if (vectSize - recordToGet > recordToGet) {
             start = start - recordToGet;   //go to Command.PREV
-        else{
-            start = 0 ;
+        } else {
+            start = 0;
             iCommand = Command.FIRST;
             prevCommand = Command.FIRST; //go to Command.FIRST
         }
-        listAppUser = PstAppUser.list(start,recordToGet, whereClause , orderClause);
+        listAppUser = PstAppUser.list(start, recordToGet, whereClause, orderClause);
     }
 
     //Setting status input apakah melakukan penambahan record baru, edit record lama, atau status pending (konfirmasi delete, cancel delete, atau masih ada error saat save
-    if (iCommand == Command.ADD) statusInput = 1;
-    else if (iCommand == Command.ASK || iCommand == Command.EDIT) statusInput = 2;
-    else if (iCommand == Command.SAVE && frmAppUser.errorSize()>0) statusInput = 9;
+    if (iCommand == Command.ADD) {
+        statusInput = 1;
+    } else if (iCommand == Command.ASK || iCommand == Command.EDIT) {
+        statusInput = 2;
+    } else if (iCommand == Command.SAVE && frmAppUser.errorSize() > 0) {
+        statusInput = 9;
+    }
 
 %>
 
 <%!
     /*
-    Method untuk menampilkan input data dalam bentuk check box
-    - bisa memilih lebih dari satu data
-    Input:
-    - Vector tipeBukus: Data dalam bentuk vector yang berisikan data dari dalam database atau data yang baru disubmit tapi masih ada error
-    - int statusInput: status input (1: Add, 2: Edit dan Ask, 9: Save, tapi masih ada error input
-    - long IDBuku: untuk menunjuk pada id objek yang sedang ditampilkan dengan detail
-    Output:
-    - Sebuah check box untuk melakukan input data dalam bentuk check box
-    Proses yang tercakup:
-    - Menampilkan data dalam check box dari dalam database
-    - Memilih data awal yang dicek di antara data yang ditampilkan di dalam check box
-        - Kalau penambahan record: isinya kosong
-        - Kalau data di-submit tapi masih ada error: tampilkan data dari nilai yang baru diinputkan
-        - Kalau menampilkan record untuk diedit: isinya dari data di dalam database
-    Opsi perubahan:
-    - ---
-    */
-    public String ctrCheckBoxAppGroup (Vector userGroups, int statusInput, long IDAppUser){
-	Vector listAppGroup = new Vector(1,1);
+     Method untuk menampilkan input data dalam bentuk check box
+     - bisa memilih lebih dari satu data
+     Input:
+     - Vector tipeBukus: Data dalam bentuk vector yang berisikan data dari dalam database atau data yang baru disubmit tapi masih ada error
+     - int statusInput: status input (1: Add, 2: Edit dan Ask, 9: Save, tapi masih ada error input
+     - long IDBuku: untuk menunjuk pada id objek yang sedang ditampilkan dengan detail
+     Output:
+     - Sebuah check box untuk melakukan input data dalam bentuk check box
+     Proses yang tercakup:
+     - Menampilkan data dalam check box dari dalam database
+     - Memilih data awal yang dicek di antara data yang ditampilkan di dalam check box
+     - Kalau penambahan record: isinya kosong
+     - Kalau data di-submit tapi masih ada error: tampilkan data dari nilai yang baru diinputkan
+     - Kalau menampilkan record untuk diedit: isinya dari data di dalam database
+     Opsi perubahan:
+     - ---
+     */
+    public String ctrCheckBoxAppGroup(Vector userGroups, int statusInput, long IDAppUser) {
+        Vector listAppGroup = new Vector(1, 1);
         listAppGroup = PstAppGroup.list(0, 0, "", "");
-        ControlCheckBox chkBx=new ControlCheckBox();
-	chkBx.setCellSpace("5");
-	chkBx.setCellStyle("5");
-	chkBx.setWidth(2);
-	chkBx.setTableAlign("left");
-	chkBx.setCellWidth("3%");
-        
-        try{
+        ControlCheckBox chkBx = new ControlCheckBox();
+        chkBx.setCellSpace("5");
+        chkBx.setCellStyle("5");
+        chkBx.setWidth(2);
+        chkBx.setTableAlign("left");
+        chkBx.setCellWidth("3%");
+
+        try {
             String fldName = FrmAppUser.fieldNames[FrmAppUser.FRM_USER_GROUP];
             Vector checkValues = new Vector();
             Vector checkCaptions = new Vector();
-            if(listAppGroup!=null){
-                for(int i=0; i< listAppGroup.size(); i++){
+            if (listAppGroup != null) {
+                for (int i = 0; i < listAppGroup.size(); i++) {
                     AppGroup group = (AppGroup) listAppGroup.get(i);
                     checkValues.add(Long.toString(group.getOID()));
-                    checkCaptions.add(" "+group.getGroupName());
+                    checkCaptions.add(" " + group.getGroupName());
                 }
             }
             Vector checkeds = new Vector();
             Vector groups = new Vector();
             Vector result = new Vector();
             if (statusInput == 9) {
-                if (!userGroups.isEmpty()) result = new Vector(userGroups);
+                if (!userGroups.isEmpty()) {
+                    result = new Vector(userGroups);
+                }
                 for (int i = 0; i < result.size(); i++) {
-                   UserGroup userGroup = (UserGroup) result.get(i);
-                   groups.add(String.valueOf(userGroup.getIdGroup()));
+                    UserGroup userGroup = (UserGroup) result.get(i);
+                    groups.add(String.valueOf(userGroup.getIdGroup()));
                 }
             } else if (statusInput == 2) {
                 result = new Vector(SessAppUser.getUserGroup(IDAppUser));
                 for (int i = 0; i < result.size(); i++) {
-                   AppGroup group = (AppGroup) result.get(i);
-                   groups.add(String.valueOf(group.getOID()));
+                    AppGroup group = (AppGroup) result.get(i);
+                    groups.add(String.valueOf(group.getOID()));
                 }
             }
-            if(groups!=null){
+            if (groups != null) {
                 checkeds = new Vector(groups);
             }
             chkBx.setTableWidth("100%");
             return chkBx.draw(fldName, checkValues, checkCaptions, checkeds);
-        } catch (Exception exc){
+        } catch (Exception exc) {
             return "Tidak ada group yang diinputkan";
         }
     }
 %>
 
+<br>
+<div class="col-md-8 col-md-offset-2">
+    <form class="form-horizontal" method="post" name="frmappuser" action="" enctype="multipart/form-data">
+        <input type="hidden" name="command" value="<%=Command.ASSIGN%>">
+        <input type="hidden" name="vectSize" value="<%=vectSize%>">
+        <input type="hidden" name="start" value="<%=start%>">
+        <input type="hidden" name="prev_command" value="<%=prevCommand%>">
+        <input type="hidden" name="hidden_appuser_id" value="<%=IDAppUser%>">  
+        <input type="hidden" name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_USER_STATUS]%>" value="<%=AppUser.STATUS_NEW%>">
 
-<script language="JavaScript">                
-                function cmdSave(){
-                    document.frmappuser.command.value="<%=Command.ASSIGN%>";
-                    document.frmappuser.prev_command.value="<%=prevCommand%>";
-                    document.frmappuser.action="index.jsp?page=register.jsp";
-                    document.frmappuser.submit();
-                }     
-</script>
-<form role="form" name="frmappuser" method ="post" action="" enctype="multipart/form-data">
-<input type="hidden" name="command" value="<%=iCommand%>">
-<input type="hidden" name="vectSize" value="<%=vectSize%>">
-<input type="hidden" name="start" value="<%=start%>">
-<input type="hidden" name="prev_command" value="<%=prevCommand%>">
-<input type="hidden" name="hidden_appuser_id" value="<%=IDAppUser%>">  
-<input type="hidden" name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_USER_STATUS]%>" value="<%=AppUser.STATUS_NEW%>">  
-      <table width="100%" border="0">
-        <tr>
-          <td></td>
-        </tr>
-        <tr>
-          <td><%=msgString%></td>
-        </tr>
-        <tr>
-          <td>
-              <table width="100%" border="0">
-            <tr>
-              <td colspan="2" bgcolor="#CCCCCC">Form Data AppUser</td>
-            </tr>
-            <tr>
-              <td>Login ID</td>
-              <td><label>
-                <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_LOGIN_ID] %>" value="<%=appuser.getLoginId()%>" type="text" id="login"/>
-              </label></td>
-            </tr>
-            <tr>
-              <td>Password</td>
-              <td><label>
-                <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_PASSWORD] %>" value="<%=appuser.getPassword()%>" type="password" id="password"/>
-              </label></td>
-            </tr>
-            <tr>
-              <td>Confirm Password</td>
-              <td><label>
-                <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_CFRM_PASSWORD] %>" value="<%if(iCommand==Command.EDIT){%><%=appuser.getPassword()%><%}%>" type="password" id="confirmpassword"/>
-              </label></td>
-            </tr>
-            <tr>
-              <td>Full Name</td>
-              <td><label>
-                <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_FULL_NAME] %>" value="<%=appuser.getFullName()%>" type="text" id="fullname"/>
-              </label></td>
-            </tr>
-            <tr>
-              <td>E-mail</td>
-              <td><label>
-                <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_EMAIL] %>" value="<%=appuser.getEmail()%>" type="text" id="email"/>
-              </label></td>
-            </tr>
-                                                                      
-            <tr>
-              <td colspan="2">
-                <input onclick="javascript:cmdSave()" type="submit" name="button2" id="button2" value="Register">
-                
-                  </td>
-            </tr>
-          </table>
-          </td>
-        </tr>
-      </table>
+        <div class="panel panel-default">
+            <div class="panel-heading">User Register</div>
+            <div class="panel-body">
+                <div class="form-group has-error text-center">
+                    <span class="help-block">
+                        <%=msgString%>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="login_id">Username</label>  
+                    <div class="col-md-6">
+                        <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_LOGIN_ID]%>" value="<%=appuser.getLoginId()%>" type="text" placeholder="Username" class="form-control" autocomplete="off" required=""/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="password">Password</label> 
+                    <div class="col-md-6">
+                        <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_PASSWORD]%>" value="<%=appuser.getPassword()%>" type="password" placeholder="Password" class="form-control" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="confirm_password">Confirm Password</label> 
+                    <div class="col-md-6">
+                        <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_CFRM_PASSWORD]%>" value="<%if (iCommand == Command.EDIT) {%><%=appuser.getPassword()%><%}%>" type="password" placeholder="Confirm Password" class="form-control" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="full_name">Full Name</label> 
+                    <div class="col-md-6">
+                        <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_FULL_NAME]%>" value="<%=appuser.getFullName()%>" type="text" placeholder="Fullname" class="form-control" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="email">Email</label> 
+                    <div class="col-md-6">
+                        <input name="<%=frmAppUser.fieldNames[FrmAppUser.FRM_EMAIL]%>" value="<%=appuser.getEmail()%>" type="email" placeholder="Email" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-save">Register</button>
+                        <button type="reset" class="btn btn-default btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
+</div>
