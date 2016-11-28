@@ -295,21 +295,21 @@
                   <td width="30" colspan="2"><table width="100%" border="0">
                     <tr>
                       <td>Nama Proyek</td>
-                      <td>Nama Karyawan</td>
+                      <td>Nama Pegawai</td>
                       <td>Waktu Mulai</td>
                       <td>Waktu Selesai</td>
                     </tr>
                     <%for(int i=0; i<listDetailJadwal.size(); i++){
                         DetailJadwal dj = (DetailJadwal)listDetailJadwal.get(i);
                         Proyek proyek = PstProyek.fetchExc(dj.getIdProyek());
-                        Karyawan karyawan = PstKaryawan.fetchExc(dj.getNIK());
+                        Pegawai pegawai = PstPegawai.fetchExc(dj.getNIP());
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy '/' HH:mm");
                         Date waktuMulai = proyek.getWaktuMulai();                
                         Date waktuSelesai = proyek.getWaktuSelesai();
                     %>
                     <tr>
                       <td><%=proyek.getNamaProyek()%></td>
-                      <td><%=karyawan.getNamaKaryawan()%></td>
+                      <td><%=pegawai.getNamaPegawai()%></td>
                       <td><%=dateFormat.format(waktuMulai)%></td>
                       <td><%=dateFormat.format(waktuSelesai)%></td>
                     </tr>
