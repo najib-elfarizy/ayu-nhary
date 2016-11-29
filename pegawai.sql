@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50550
 File Encoding         : 65001
 
-Date: 2016-11-28 20:02:50
+Date: 2016-11-29 17:21:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `app_config` (
   `CONFIG_VALUE` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`CONFIG_ID`),
   UNIQUE KEY `config_name_unique` (`CONFIG_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of app_config
@@ -90,7 +90,7 @@ CREATE TABLE `app_user` (
 -- ----------------------------
 -- Records of app_user
 -- ----------------------------
-INSERT INTO `app_user` VALUES ('504404604167511665', 'admin', 'admin', 'Administrator', 'admin@admin.com', '1');
+INSERT INTO `app_user` VALUES ('504404604167511665', 'admin', 'admin', 'Administrator', 'admin@admin.com', '2');
 INSERT INTO `app_user` VALUES ('504404615225007512', 'maryono', 'maryono', 'Maryono', 'maryono@yahoo.com', '1');
 INSERT INTO `app_user` VALUES ('504404615225228269', 'jaka', 'jaka', 'Jaka', 'jaka@yahoo.com', '2');
 INSERT INTO `app_user` VALUES ('504404615225264352', 'joni', 'joni', 'Joni', 'joni@yahoo.com', '1');
@@ -161,7 +161,8 @@ CREATE TABLE `jadwal_detail` (
   KEY `ID_PROYEK` (`ID_PROYEK`) USING BTREE,
   KEY `NIP` (`NIP`) USING BTREE,
   CONSTRAINT `jadwal_detail_ibfk_1` FOREIGN KEY (`ID_JADWAL`) REFERENCES `jadwal` (`ID_JADWAL`),
-  CONSTRAINT `jadwal_detail_ibfk_2` FOREIGN KEY (`ID_PROYEK`) REFERENCES `proyek` (`ID_PROYEK`)
+  CONSTRAINT `jadwal_detail_ibfk_2` FOREIGN KEY (`ID_PROYEK`) REFERENCES `proyek` (`ID_PROYEK`),
+  CONSTRAINT `jadwal_detail_ibfk_3` FOREIGN KEY (`NIP`) REFERENCES `pegawai` (`NIP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -176,7 +177,7 @@ INSERT INTO `jadwal_detail` VALUES ('504404619291549228', '504404619291479451', 
 INSERT INTO `jadwal_detail` VALUES ('504404619291564076', '504404619291479451', '504404617636006567', '504404617547614263', '2016-04-01 17:00:00', '2016-04-01 17:00:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619291586648', '504404619291479451', '504404617813390357', '504404617813542610', '2016-04-01 17:00:00', '2016-04-01 17:00:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619291603509', '504404619291479451', '504404617813423414', '504404617813560002', '2016-04-01 17:00:00', '2016-04-01 17:00:00');
-INSERT INTO `jadwal_detail` VALUES ('504404619291615263', '504404619291471823', '504404617813464272', '504404638589498534', '2016-04-05 07:00:00', '2016-04-05 19:00:00');
+INSERT INTO `jadwal_detail` VALUES ('504404619291615263', '504404619291471823', '504404617813464272', '504404617547632275', '2016-04-01 17:35:00', '2016-04-01 17:35:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619291649376', '504404619291486577', '504404617128338998', '504404617547632275', '2016-04-01 17:35:00', '2016-04-01 17:35:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619291666581', '504404619291486577', '504404617636006567', '504404617547632275', '2016-04-01 17:35:00', '2016-04-01 17:35:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619291682758', '504404619291486577', '504404617813390357', '504404617547614263', '2016-04-05 17:00:00', '2016-04-05 17:00:00');
@@ -187,8 +188,6 @@ INSERT INTO `jadwal_detail` VALUES ('504404619375670570', '504404619375670280', 
 INSERT INTO `jadwal_detail` VALUES ('504404619375670650', '504404619375670280', '504404617813390357', '504404617547614263', '2016-04-01 14:00:00', '2016-04-07 14:00:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619375670691', '504404619375670280', '504404617813423414', '504404617813542610', '2016-04-01 14:00:00', '2016-04-01 19:00:00');
 INSERT INTO `jadwal_detail` VALUES ('504404619375670725', '504404619375670280', '504404617813464272', '504404617813560002', '2016-04-01 07:00:00', '2016-04-01 19:00:00');
-INSERT INTO `jadwal_detail` VALUES ('504404638598429788', '504404619375670280', '504404638598198622', '504404638589498534', '2016-11-01 19:00:00', '2016-11-01 19:00:00');
-INSERT INTO `jadwal_detail` VALUES ('504404638598823098', '504404619291471823', '504404638598198622', '504404638589498534', '2016-12-31 19:00:00', '2017-01-02 19:00:00');
 
 -- ----------------------------
 -- Table structure for karyawan
@@ -273,12 +272,12 @@ CREATE TABLE `pegawai` (
 -- ----------------------------
 -- Records of pegawai
 -- ----------------------------
-INSERT INTO `pegawai` VALUES ('504404617547614263', 'Maryono', null, null, null, 'Denpasar', null, null, 'Admin');
-INSERT INTO `pegawai` VALUES ('504404617547632275', 'Agus', null, null, null, 'Denpasar', null, null, 'Teknisi');
-INSERT INTO `pegawai` VALUES ('504404617813542610', 'Putu', null, null, null, 'Denpasar', null, null, 'Teknisi');
-INSERT INTO `pegawai` VALUES ('504404617813560002', 'Made', null, null, null, 'Denpasar', null, null, 'Teknisi');
-INSERT INTO `pegawai` VALUES ('504404617813583952', 'Eko', null, null, null, 'Denpasar', null, null, 'Teknisi');
-INSERT INTO `pegawai` VALUES ('504404638589498534', 'Ayu Nhary', 'P', '', '1994-05-01 00:00:00', 'JL. Tukad Pakerisan', 'Strata 1', 'ayu.nhary@gmail.com', 'Sekertaris');
+INSERT INTO `pegawai` VALUES ('504404617547614263', 'Maryono', 'L', null, '2016-03-29 00:00:00', 'Denpasar', 'S1', null, 'Admin');
+INSERT INTO `pegawai` VALUES ('504404617547632275', 'Agus', 'L', '', '1990-11-28 00:00:00', 'JL. Pulau Batam Denpasar', 'S1', 'agus@gmail.com', 'Teknisi');
+INSERT INTO `pegawai` VALUES ('504404617813542610', 'Putu', 'L', null, '2016-04-01 00:00:00', 'Denpasar', 'D3', null, 'Teknisi');
+INSERT INTO `pegawai` VALUES ('504404617813560002', 'Made', 'L', null, '2016-04-01 00:00:00', 'Denpasar', 'D3', null, 'Teknisi');
+INSERT INTO `pegawai` VALUES ('504404617813583952', 'Eko', 'L', null, '2016-04-01 00:00:00', 'Denpasar', 'D3', null, 'Teknisi');
+INSERT INTO `pegawai` VALUES ('504404638606399810', 'Ayu Nhary', 'P', '', '1994-03-09 00:00:00', 'JL. Tukad Pakerisan 100x', 'Strata 1', 'ayu.nhary@gmail.com', 'Sekertaris');
 
 -- ----------------------------
 -- Table structure for proyek
@@ -301,7 +300,6 @@ INSERT INTO `proyek` VALUES ('504404617636006567', 'Maintenance Jaringan PT. Dut
 INSERT INTO `proyek` VALUES ('504404617813390357', 'Pemasangan Jaringan RS. Kasih Ibu', '2016-04-01 14:00:00', '2016-04-07 14:00:00', '144');
 INSERT INTO `proyek` VALUES ('504404617813423414', 'Instalasi Software Surya Mandiri', '2016-04-01 14:00:00', '2016-04-01 19:00:00', '5');
 INSERT INTO `proyek` VALUES ('504404617813464272', 'Maintenance Jaringan Hotel Aneka', '2016-04-01 07:00:00', '2016-04-01 19:00:00', '12');
-INSERT INTO `proyek` VALUES ('504404638598198622', 'Develop Program Baru', '2017-01-01 19:00:00', '2017-01-31 19:00:00', '720');
 
 -- ----------------------------
 -- Table structure for user_group

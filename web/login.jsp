@@ -68,7 +68,9 @@
         }
 
     }
+%>
 
+<%
     if ((iCommandLog == CMD_LOGIN)) {
         if ((iCommandLog == CMD_LOGIN) && (dologin == SessUserSession.DO_LOGIN_OK)) {
 %>

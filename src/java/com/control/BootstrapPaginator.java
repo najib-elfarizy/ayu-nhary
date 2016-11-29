@@ -49,7 +49,7 @@ public class BootstrapPaginator {
                 }
                 //   }
 
-                str.append("<ul class=\"pagination\">");
+                str.append("<ul class=\"pagination pagination-sm\">");
 
                 int noOfPages = (int) Math.ceil(vectsize * 1.0 / maxtoget);
                 for (int i = 0; i < noOfPages; i++) {

@@ -4,15 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/index.jsp</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/settings.jsp</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/user/form/CtrlAppConfig.java</file>
             <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/session.jsp</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/style.css</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/master/form/FrmPegawai.java</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/login.jsp</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/master/form/CtrlPegawai.java</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/master/pegawai.jsp</file>
-            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/assets/main.css</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/master/session/SessJadwal.java</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/view/jadwal.jsp</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/penjadwalan.jsp</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/master/form/CtrlCalculation.java</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/web/master/detailjadwal.jsp</file>
+            <file>file:/C:/Users/xStudio/Documents/NetBeansProjects/ayu-nhary/src/java/com/master/session/ga/Kromosom.java</file>
         </group>
     </open-files>
 </project-private>
